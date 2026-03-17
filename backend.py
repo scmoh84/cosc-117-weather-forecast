@@ -25,7 +25,7 @@ def process_current(current: ET.Element) -> tuple[str, str, str, ET.Element]:
 
 def calc_aqi_level(concentration, intervals) -> str:
     for interval_level, interval_max in intervals:
-        if concentration <= str(interval_max):
+        if float(concentration) <= float(interval_max):
             return interval_level
     return 7
 
@@ -70,7 +70,7 @@ def get_four_day_weather():
         current_weather, current_code, current_temp, current_air_quality = process_current(current_element)
         air_quality_str = air_quality_summary(current_air_quality)
         data.append((today_string, current_weather, WEATHER_EMOJI[current_code], current_temp+" c", air_quality_str))
-     
+    
         for forecastday_element in forecast_root_element.findall("forecast/forecastday"):
             if forecastday_element.find("date").text == tomorrow_string:
                 tomorrow_element = forecastday_element.find("day")
